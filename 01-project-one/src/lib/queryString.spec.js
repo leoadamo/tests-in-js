@@ -1,5 +1,5 @@
 // DEPENDENCIES
-const { objectToQueryString, queryStringToObject } = require('./queryString');
+import { objectToQueryString, queryStringToObject } from './queryString';
 
 describe('queryString.js: Converting objects into query strings', () => {
   it('Should create a valid query string when an object is provided.', () => {
