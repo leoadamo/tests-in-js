@@ -22,7 +22,7 @@ const keyValueToString = ([key, value]) => {
  * @returns {boolean} Whether the given query string has a property format or not.
  */
 const isValidQueryString = (qs) =>
-  qs.match(/^(\?[\w\d]+=[\w\d]+)(&[\w\d]+=[\w\d]+)*$/g);
+  qs.match(/^(\?[\w\d]+=[\w\d\.,]+)(&[\w\d]+=[\w\d\.,]+)*$/g);
 
 /**
  * It receives an object and converts into a query string format.
@@ -48,7 +48,15 @@ const queryStringToObject = (qs) => {
     qs
       .replace(/^\?/, '')
       .split('&')
-      .map((entry) => entry.split('='))
+      .map((entry) => {
+        let [key, value] = entry.split('=');
+
+        if (value.includes(',')) {
+          value = value.split(',');
+        }
+
+        return [key, value];
+      })
   );
 };
 

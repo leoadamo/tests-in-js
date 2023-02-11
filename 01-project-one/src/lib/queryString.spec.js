@@ -50,6 +50,23 @@ describe('queryString.js: Converting query strings into objects', () => {
     });
   });
 
+  it('Should convert a given query string into an object even when a single parameter is given.', () => {
+    const qs = '?name=Leonardo';
+
+    expect(queryStringToObject(qs)).toEqual({
+      name: 'Leonardo',
+    });
+  });
+
+  it('Should convert a query string into an object taking care of comma separated values.', () => {
+    const qs = '?name=Leonardo&abilities=Vue.js,Jest';
+
+    expect(queryStringToObject(qs)).toEqual({
+      name: 'Leonardo',
+      abilities: ['Vue.js', 'Jest'],
+    });
+  });
+
   it("Should throw an error if the given query string hasn't a valid format.", () => {
     const invalidQs = 'name=Leonardo_role=Developer';
 
