@@ -13,7 +13,7 @@ const sum = (num1, num2) => {
     throw new Error('Invalid argument. Please, check your input.');
   }
 
-  return +num1 + +num2;
+  return int1 + int2;
 };
 
 module.exports = { sum };
