@@ -6,13 +6,13 @@
  * @returns {string} An string combining the key-value pairs.
  */
 function keyValueToString([key, value]) {
-  if (typeof value === 'object' && !Array.isArray(value)) {
-    throw new Error(
-      'Deep nested objects are not supported. Please, check your input.'
-    );
-  }
+	if (typeof value === 'object' && !Array.isArray(value)) {
+		throw new Error(
+			'Deep nested objects are not supported. Please, check your input.'
+		);
+	}
 
-  return `${key}=${value}`;
+	return `${key}=${value}`;
 }
 
 /**
@@ -22,7 +22,7 @@ function keyValueToString([key, value]) {
  * @returns {boolean} Whether the given query string has a property format or not.
  */
 function isValidQueryString(qs) {
-  return qs.match(/^(\?[\w\d]+=[\w\d\.,]+)(&[\w\d]+=[\w\d\.,]+)*$/g);
+	return qs.match(/^(\?[\w\d]+=[\w\d\.,]+)(&[\w\d]+=[\w\d\.,]+)*$/g);
 }
 
 /**
@@ -32,7 +32,7 @@ function isValidQueryString(qs) {
  * @returns {string} The resultant query string.
  */
 export function objectToQueryString(obj) {
-  return `?${Object.entries(obj).map(keyValueToString).join('&')}`;
+	return `?${Object.entries(obj).map(keyValueToString).join('&')}`;
 }
 
 /**
@@ -42,22 +42,22 @@ export function objectToQueryString(obj) {
  * @returns {object} The parsed object.
  */
 export function queryStringToObject(qs) {
-  if (!isValidQueryString(qs)) {
-    throw new Error('Invalid query string syntax. Please, check your input');
-  }
+	if (!isValidQueryString(qs)) {
+		throw new Error('Invalid query string syntax. Please, check your input');
+	}
 
-  return Object.fromEntries(
-    qs
-      .replace(/^\?/, '')
-      .split('&')
-      .map((entry) => {
-        let [key, value] = entry.split('=');
+	return Object.fromEntries(
+		qs
+			.replace(/^\?/, '')
+			.split('&')
+			.map((entry) => {
+				let [key, value] = entry.split('=');
 
-        if (value.includes(',')) {
-          value = value.split(',');
-        }
+				if (value.includes(',')) {
+					value = value.split(',');
+				}
 
-        return [key, value];
-      })
-  );
+				return [key, value];
+			})
+	);
 }
