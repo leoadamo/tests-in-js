@@ -38,7 +38,7 @@ describe('cart.js: Handling products addition, exclusion and order details.', ()
 			quantity: 1,
 		});
 
-		// The total in the cart, should be based on the last add product quantity.
+		// The total in the cart, should be based on the last added product quantity.
 		expect(cart.getTotal()).toEqual(35388);
 	});
 });
