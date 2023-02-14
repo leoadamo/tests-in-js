@@ -10,7 +10,7 @@ export default class Cart {
 	items = [];
 
 	/**
-	 * Adds an item into the "items" array.
+	 * Adds an item into the cart.
 	 *
 	 * @param {object} item The item data.
 	 * @returns {void}
@@ -23,6 +23,15 @@ export default class Cart {
 		}
 
 		this.items.push(item);
+	}
+
+	/**
+	 * Removes an item from the cart.
+	 *
+	 * @param {object} item The item data.
+	 */
+	remove(item) {
+		remove(this.items, { product: item.product });
 	}
 
 	/**

@@ -7,6 +7,11 @@ describe('cart.js: Handling products addition, exclusion and order details.', ()
 		price: 35388, // 353.88 || R$ 353.88
 	};
 
+	const secondaryProduct = {
+		title: 'Adidas AdiPower - Women',
+		price: 50000,
+	};
+
 	let cart;
 
 	// Creating a global cart instance before each test to run.
@@ -40,5 +45,21 @@ describe('cart.js: Handling products addition, exclusion and order details.', ()
 
 		// The total in the cart, should be based on the last added product quantity.
 		expect(cart.getTotal()).toEqual(35388);
+	});
+
+	it('Should update the total amount when a product is added and then removed from the cart.', () => {
+		cart.add({
+			product,
+			quantity: 2,
+		});
+
+		cart.add({
+			product: secondaryProduct,
+			quantity: 1,
+		});
+
+		cart.remove({ product });
+
+		expect(cart.getTotal()).toEqual(50000);
 	});
 });
