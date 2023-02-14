@@ -1,3 +1,7 @@
+// DEPENDENCIES
+import find from 'lodash/find';
+import remove from 'lodash/remove';
+
 /**
  * Cart.js - Creates a Cart instance containing all it's
  * methods.
@@ -12,6 +16,12 @@ export default class Cart {
 	 * @returns {void}
 	 */
 	add(item) {
+		const itemToFind = { product: item.product };
+
+		if (find(this.items, itemToFind)) {
+			remove(this.items, itemToFind);
+		}
+
 		this.items.push(item);
 	}
 
