@@ -1,5 +1,5 @@
 // DEPENDENCIES
-import Cart from './cart';
+import Cart from '@lib/cart';
 
 describe('cart.js: Handling products addition, exclusion and order details.', () => {
 	const product = {
@@ -109,6 +109,23 @@ describe('cart.js: Handling products addition, exclusion and order details.', ()
 			cart.checkout();
 
 			expect(cart.getTotal()).toEqual(0);
+		});
+	});
+
+	describe('Receiving special conditions', () => {
+		it('Should apply a discount when the quantity of products satisfies a minimum condition.', () => {
+			const conditions = {
+				minimum: 2,
+				percentage: 30,
+			};
+
+			cart.add({
+				product,
+				quantity: 2,
+				conditions,
+			});
+
+			expect(cart.getTotal()).toEqual(49543);
 		});
 	});
 });

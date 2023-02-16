@@ -2,6 +2,9 @@
 import find from 'lodash/find';
 import remove from 'lodash/remove';
 
+// CONFIG
+import Dinero from '@config/dinero';
+
 /**
  * Cart.js - Creates a Cart instance containing all it's
  * methods.
@@ -37,13 +40,26 @@ export default class Cart {
 	/**
 	 * Gets the cart total amount.
 	 *
-	 * @returns {void}
+	 * @returns {number} The cart total amount.
 	 */
 	getTotal() {
-		return this.items.reduce(
-			(acc, item) => acc + item.quantity * item.product.price,
-			0
-		);
+		const total = this.items.reduce((acc, item) => {
+			const amount = Dinero({ amount: item.quantity * item.product.price });
+			let discount = Dinero({ amount: 0 });
+
+			if (
+				item.conditions &&
+				item.conditions.percentage &&
+				item.conditions.minimum &&
+				item.conditions.minimum <= item.quantity
+			) {
+				discount = amount.percentage(item.conditions.percentage);
+			}
+
+			return acc.add(amount).subtract(discount);
+		}, Dinero({ amount: 0 }));
+
+		return total.getAmount();
 	}
 
 	/**
