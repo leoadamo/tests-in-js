@@ -113,7 +113,7 @@ describe('cart.js: Handling products addition, exclusion and order details.', ()
 	});
 
 	describe('Receiving special conditions', () => {
-		it("Shouldn't apply a discount when the quantity of products DON'T satisfies a minimum condition.", () => {
+		it("Shouldn't apply a discount when the quantity of products is lower then or equals to a minimum condition.", () => {
 			const conditions = {
 				minimum: 2,
 				percentage: 30,
@@ -136,14 +136,14 @@ describe('cart.js: Handling products addition, exclusion and order details.', ()
 
 			cart.add({
 				product,
-				quantity: 2,
+				quantity: 3,
 				conditions,
 			});
 
-			expect(cart.getTotal()).toEqual(49543);
+			expect(cart.getTotal()).toEqual(74315);
 		});
 
-		it("Shouldn't apply a quantity-based discount when the quantity doesn't fit the condition.", () => {
+		it("Shouldn't apply a quantity-based discount when the quantity of items is lower then or equals to a condition.", () => {
 			const conditions = {
 				quantity: 2,
 			};

@@ -14,7 +14,7 @@ import Dinero from '@config/dinero';
  * @returns {number} The properly percentage of discount to be applied.
  */
 function getPercentageDiscount(amount, item) {
-	if (item.conditions?.minimum <= item.quantity) {
+	if (item.conditions?.minimum < item.quantity) {
 		return amount.percentage(item.conditions.percentage);
 	}
 
