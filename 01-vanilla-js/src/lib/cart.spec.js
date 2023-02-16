@@ -128,7 +128,7 @@ describe('cart.js: Handling products addition, exclusion and order details.', ()
 			expect(cart.getTotal()).toEqual(49543);
 		});
 
-		it('Should apply a quantity-based discount for even quantities.', () => {
+		it('Should apply a quantity-based discount for EVEN quantities.', () => {
 			const conditions = {
 				quantity: 2,
 			};
@@ -139,8 +139,23 @@ describe('cart.js: Handling products addition, exclusion and order details.', ()
 				conditions,
 			});
 
-			// Should be a half of the total amount.
+			// Should be a half of the total amount (50% off).
 			expect(cart.getTotal()).toEqual(70776);
+		});
+
+		it('Should apply a quantity-based discount for ODD quantities.', () => {
+			const conditions = {
+				quantity: 2,
+			};
+
+			cart.add({
+				product,
+				quantity: 5,
+				conditions,
+			});
+
+			// Should be 40% off the total amount.
+			expect(cart.getTotal()).toEqual(106164);
 		});
 	});
 });

@@ -29,8 +29,11 @@ function getPercentageDiscount(amount, item) {
  * @returns {number} The properly discount based on the quantity of items being bought.
  */
 function getQuantityDiscount(amount, item) {
+	const isEven = item.quantity % 2 === 0;
+	const percentage = isEven ? 50 : 40;
+
 	if (item.conditions.quantity < item.quantity) {
-		return amount.percentage(50);
+		return amount.percentage(percentage);
 	}
 
 	return Dinero({ amount: 0 });
