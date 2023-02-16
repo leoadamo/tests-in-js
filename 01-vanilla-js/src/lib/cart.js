@@ -45,4 +45,35 @@ export default class Cart {
 			0
 		);
 	}
+
+	/**
+	 * Gets the order summary.
+	 *
+	 * @returns {object} The order summary.
+	 */
+	getSummary() {
+		const items = this.items;
+		const total = this.getTotal();
+
+		return {
+			items,
+			total,
+		};
+	}
+
+	/**
+	 * Returns the checkout data.
+	 *
+	 * @returns {object} The checkout payload.
+	 */
+	checkout() {
+		const { items, total } = this.getSummary();
+
+		this.items = [];
+
+		return {
+			items,
+			total,
+		};
+	}
 }

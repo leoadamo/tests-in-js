@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`cart.js: Handling products addition, exclusion and order details. checkout() Should return an object containing the total and the list of items in the order when getSummary() is called. 1`] = `
+{
+  "items": [
+    {
+      "product": {
+        "price": 35388,
+        "title": "Nike SB Run",
+      },
+      "quantity": 1,
+    },
+    {
+      "product": {
+        "price": 50000,
+        "title": "Adidas AdiPower - Women",
+      },
+      "quantity": 1,
+    },
+  ],
+  "total": 85388,
+}
+`;
+
+exports[`cart.js: Handling products addition, exclusion and order details. checkout() Should return an object containing the total and the list of items in the order. 1`] = `
+{
+  "items": [
+    {
+      "product": {
+        "price": 35388,
+        "title": "Nike SB Run",
+      },
+      "quantity": 2,
+    },
+    {
+      "product": {
+        "price": 50000,
+        "title": "Adidas AdiPower - Women",
+      },
+      "quantity": 4,
+    },
+  ],
+  "total": 270776,
+}
+`;
