@@ -127,5 +127,20 @@ describe('cart.js: Handling products addition, exclusion and order details.', ()
 
 			expect(cart.getTotal()).toEqual(49543);
 		});
+
+		it('Should apply a quantity-based discount for even quantities.', () => {
+			const conditions = {
+				quantity: 2,
+			};
+
+			cart.add({
+				product,
+				quantity: 4,
+				conditions,
+			});
+
+			// Should be a half of the total amount.
+			expect(cart.getTotal()).toEqual(70776);
+		});
 	});
 });

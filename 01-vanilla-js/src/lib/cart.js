@@ -6,6 +6,36 @@ import remove from 'lodash/remove';
 import Dinero from '@config/dinero';
 
 /**
+ * Gets a discount percentage to be applied to an
+ * item.
+ *
+ * @param {number} amount The total amount.
+ * @param {object} item The item data.
+ * @returns {number} The properly percentage of discount to be applied.
+ */
+function getPercentageDiscount(amount, item) {
+	if (item.conditions?.minimum <= item.quantity) {
+		return amount.percentage(item.conditions.percentage);
+	}
+
+	return Dinero({ amount: 0 });
+}
+
+/**
+ * Gets a discount based on a quantity of items being bought.
+ *
+ * @param {number} amount The total amount.
+ * @param {object} item The item data.
+ * @returns {number} The properly discount based on the quantity of items being bought.
+ */
+function getQuantityDiscount(amount, item) {
+	if (item.conditions.quantity < item.quantity) {
+		return amount.percentage(50);
+	}
+
+	return Dinero({ amount: 0 });
+}
+/**
  * Cart.js - Creates a Cart instance containing all it's
  * methods.
  */
@@ -45,15 +75,14 @@ export default class Cart {
 	getTotal() {
 		const total = this.items.reduce((acc, item) => {
 			const amount = Dinero({ amount: item.quantity * item.product.price });
-			let discount = Dinero({ amount: 0 });
+			let discount;
 
-			if (
-				item.conditions &&
-				item.conditions.percentage &&
-				item.conditions.minimum &&
-				item.conditions.minimum <= item.quantity
-			) {
-				discount = amount.percentage(item.conditions.percentage);
+			if (item.conditions?.percentage) {
+				discount = getPercentageDiscount(amount, item);
+			} else if (item.conditions?.quantity) {
+				discount = getQuantityDiscount(amount, item);
+			} else {
+				discount = Dinero({ amount: 0 });
 			}
 
 			return acc.add(amount).subtract(discount);
