@@ -33,7 +33,7 @@ describe('cart.js: Handling products addition, exclusion and order details.', ()
 			expect(cart.getTotal()).toEqual(70776);
 		});
 
-		it('Should ensure that only one product exists at a time.', () => {
+		it('Should ensure that only one item exists at a time.', () => {
 			cart.add({
 				product,
 				quantity: 2,
@@ -44,7 +44,7 @@ describe('cart.js: Handling products addition, exclusion and order details.', ()
 				quantity: 1,
 			});
 
-			// The total in the cart, should be based on the last added product quantity.
+			// The total in the cart, should be based on the last added item quantity.
 			expect(cart.getTotal()).toEqual(35388);
 		});
 
@@ -66,7 +66,7 @@ describe('cart.js: Handling products addition, exclusion and order details.', ()
 	});
 
 	describe('checkout()', () => {
-		it('Should return an object containing the total and the list of items in the order.', () => {
+		it('Should return an object containing the formatted total and the list of items in the order.', () => {
 			cart.add({
 				product,
 				quantity: 2,
@@ -80,7 +80,7 @@ describe('cart.js: Handling products addition, exclusion and order details.', ()
 			expect(cart.checkout()).toMatchSnapshot();
 		});
 
-		it('Should return an object containing the total and the list of items in the order when getSummary() is called.', () => {
+		it('Should return an object containing the total, formatted total and the list of items in the order when getSummary() is called. Also, the total in the cart should be greater than zero.', () => {
 			cart.add({
 				product,
 				quantity: 1,
@@ -93,6 +93,20 @@ describe('cart.js: Handling products addition, exclusion and order details.', ()
 
 			expect(cart.getSummary()).toMatchSnapshot();
 			expect(cart.getTotal()).toBeGreaterThan(0);
+		});
+
+		it('Should include the formatted total in the summary.', () => {
+			cart.add({
+				product,
+				quantity: 1,
+			});
+
+			cart.add({
+				product: secondaryProduct,
+				quantity: 1,
+			});
+
+			expect(cart.getSummary().formattedTotal).toEqual('R$853.88');
 		});
 
 		it('Should clean the cart when checkout() is called.', () => {
@@ -113,7 +127,19 @@ describe('cart.js: Handling products addition, exclusion and order details.', ()
 	});
 
 	describe('Receiving special conditions', () => {
-		it("Shouldn't apply a discount when the quantity of products is lower then or equals to a minimum condition.", () => {
+		it("Shouldn't apply any discount when having invalid special conditions", () => {
+			cart.add({
+				product,
+				quantity: 1,
+				conditions: {
+					invalid: true,
+				},
+			});
+
+			expect(cart.getTotal()).toEqual(35388);
+		});
+
+		it("Shouldn't apply a percentage discount when the quantity of products is lower then or equals to a minimum condition.", () => {
 			const conditions = {
 				minimum: 2,
 				percentage: 30,
@@ -128,7 +154,21 @@ describe('cart.js: Handling products addition, exclusion and order details.', ()
 			expect(cart.getTotal()).toEqual(35388);
 		});
 
-		it('Should apply a discount when the quantity of products satisfies a minimum condition.', () => {
+		it("Shouldn't apply a quantity-based discount when the quantity of products is lower then or equals to a quantity condition.", () => {
+			const conditions = {
+				quantity: 2,
+			};
+
+			cart.add({
+				product,
+				quantity: 1,
+				conditions,
+			});
+
+			expect(cart.getTotal()).toEqual(35388);
+		});
+
+		it('Should apply a percentage discount when the quantity of products satisfies a minimum condition.', () => {
 			const conditions = {
 				minimum: 2,
 				percentage: 30,
@@ -143,21 +183,7 @@ describe('cart.js: Handling products addition, exclusion and order details.', ()
 			expect(cart.getTotal()).toEqual(74315);
 		});
 
-		it("Shouldn't apply a quantity-based discount when the quantity of items is lower then or equals to a condition.", () => {
-			const conditions = {
-				quantity: 2,
-			};
-
-			cart.add({
-				product,
-				quantity: 1,
-				conditions,
-			});
-
-			expect(cart.getTotal()).toEqual(35388);
-		});
-
-		it('Should apply a quantity-based discount for EVEN quantities.', () => {
+		it('Should apply a quantity-based discount for EVEN quantities (50% off).', () => {
 			const conditions = {
 				quantity: 2,
 			};
@@ -172,7 +198,7 @@ describe('cart.js: Handling products addition, exclusion and order details.', ()
 			expect(cart.getTotal()).toEqual(70776);
 		});
 
-		it('Should apply a quantity-based discount for ODD quantities.', () => {
+		it('Should apply a quantity-based discount for ODD quantities (40% off).', () => {
 			const conditions = {
 				quantity: 2,
 			};
@@ -185,6 +211,44 @@ describe('cart.js: Handling products addition, exclusion and order details.', ()
 
 			// Should be 40% off the total amount.
 			expect(cart.getTotal()).toEqual(106164);
+		});
+
+		it('Should apply the best discount for two different given conditions (Case 01 - Quantity is better).', () => {
+			const conditions1 = {
+				percentage: 30,
+				minimum: 2,
+			};
+
+			const conditions2 = {
+				quantity: 2,
+			};
+
+			cart.add({
+				product,
+				quantity: 5,
+				conditions: [conditions1, conditions2],
+			});
+
+			expect(cart.getTotal()).toBe(106164);
+		});
+
+		it('Should apply the best discount for two different given conditions (Case 02 - Percentage is better).', () => {
+			const conditions1 = {
+				percentage: 80,
+				minimum: 2,
+			};
+
+			const conditions2 = {
+				quantity: 2,
+			};
+
+			cart.add({
+				product,
+				quantity: 5,
+				conditions: [conditions1, conditions2],
+			});
+
+			expect(cart.getTotal()).toBe(35388);
 		});
 	});
 });

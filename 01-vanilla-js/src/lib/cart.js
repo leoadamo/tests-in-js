@@ -5,39 +5,9 @@ import remove from 'lodash/remove';
 // CONFIG
 import Dinero from '@config/dinero';
 
-/**
- * Gets a discount percentage to be applied to an
- * item.
- *
- * @param {number} amount The total amount.
- * @param {object} item The item data.
- * @returns {number} The properly percentage of discount to be applied.
- */
-function getPercentageDiscount(amount, item) {
-	if (item.conditions?.minimum < item.quantity) {
-		return amount.percentage(item.conditions.percentage);
-	}
+// UTILS
+import { getDiscount } from '@utils/discount';
 
-	return Dinero({ amount: 0 });
-}
-
-/**
- * Gets a discount based on a quantity of items being bought.
- *
- * @param {number} amount The total amount.
- * @param {object} item The item data.
- * @returns {number} The properly discount based on the quantity of items being bought.
- */
-function getQuantityDiscount(amount, item) {
-	const isEven = item.quantity % 2 === 0;
-	const percentage = isEven ? 50 : 40;
-
-	if (item.conditions.quantity < item.quantity) {
-		return amount.percentage(percentage);
-	}
-
-	return Dinero({ amount: 0 });
-}
 /**
  * Cart.js - Creates a Cart instance containing all it's
  * methods.
@@ -76,20 +46,18 @@ export default class Cart {
 	 * @returns {number} The cart total amount.
 	 */
 	getTotal() {
-		const total = this.items.reduce((acc, item) => {
-			const amount = Dinero({ amount: item.quantity * item.product.price });
-			let discount;
+		const total = this.items.reduce(
+			(acc, { quantity, product, conditions }) => {
+				const amount = Dinero({ amount: quantity * product.price });
 
-			if (item.conditions?.percentage) {
-				discount = getPercentageDiscount(amount, item);
-			} else if (item.conditions?.quantity) {
-				discount = getQuantityDiscount(amount, item);
-			} else {
-				discount = Dinero({ amount: 0 });
-			}
+				const discount = conditions
+					? getDiscount(amount, quantity, conditions)
+					: Dinero({ amount: 0 });
 
-			return acc.add(amount).subtract(discount);
-		}, Dinero({ amount: 0 }));
+				return acc.add(amount).subtract(discount);
+			},
+			Dinero({ amount: 0 })
+		);
 
 		return total.getAmount();
 	}
@@ -102,10 +70,12 @@ export default class Cart {
 	getSummary() {
 		const items = this.items;
 		const total = this.getTotal();
+		const formattedTotal = Dinero({ amount: total }).toFormat('$0,0.00');
 
 		return {
 			items,
 			total,
+			formattedTotal,
 		};
 	}
 
@@ -115,13 +85,13 @@ export default class Cart {
 	 * @returns {object} The checkout payload.
 	 */
 	checkout() {
-		const { items, total } = this.getSummary();
+		const { items, formattedTotal } = this.getSummary();
 
 		this.items = [];
 
 		return {
 			items,
-			total,
+			formattedTotal,
 		};
 	}
 }

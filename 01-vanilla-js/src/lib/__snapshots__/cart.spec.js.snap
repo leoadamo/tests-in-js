@@ -1,7 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`cart.js: Handling products addition, exclusion and order details. checkout() Should return an object containing the total and the list of items in the order when getSummary() is called. 1`] = `
+exports[`cart.js: Handling products addition, exclusion and order details. checkout() Should return an object containing the formatted total and the list of items in the order. 1`] = `
 {
+  "formattedTotal": "R$2,707.76",
+  "items": [
+    {
+      "product": {
+        "price": 35388,
+        "title": "Nike SB Run",
+      },
+      "quantity": 2,
+    },
+    {
+      "product": {
+        "price": 50000,
+        "title": "Adidas AdiPower - Women",
+      },
+      "quantity": 4,
+    },
+  ],
+}
+`;
+
+exports[`cart.js: Handling products addition, exclusion and order details. checkout() Should return an object containing the total, formatted total and the list of items in the order when getSummary() is called. Also, the total in the cart should be greater than zero. 1`] = `
+{
+  "formattedTotal": "R$853.88",
   "items": [
     {
       "product": {
@@ -19,27 +42,5 @@ exports[`cart.js: Handling products addition, exclusion and order details. check
     },
   ],
   "total": 85388,
-}
-`;
-
-exports[`cart.js: Handling products addition, exclusion and order details. checkout() Should return an object containing the total and the list of items in the order. 1`] = `
-{
-  "items": [
-    {
-      "product": {
-        "price": 35388,
-        "title": "Nike SB Run",
-      },
-      "quantity": 2,
-    },
-    {
-      "product": {
-        "price": 50000,
-        "title": "Adidas AdiPower - Women",
-      },
-      "quantity": 4,
-    },
-  ],
-  "total": 270776,
 }
 `;
