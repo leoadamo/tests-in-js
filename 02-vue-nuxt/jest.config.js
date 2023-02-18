@@ -1,5 +1,5 @@
 module.exports = {
-	preset: './jest-preset.js',
+	preset: './jest.preset.js',
 	testEnvironment: 'jsdom',
 	testEnvironmentOptions: {
 		customExportConditions: ['node', 'node-addons'],
