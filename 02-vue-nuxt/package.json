@@ -11,7 +11,7 @@
     "lint:prettier": "prettier --check .",
     "lint": "yarn lint:js && yarn lint:prettier",
     "lintfix": "prettier --write --list-different . && yarn lint:js --fix",
-    "prepare": "husky install",
+    "prepare": "cd .. && husky install",
     "test": "jest"
   },
   "lint-staged": {
