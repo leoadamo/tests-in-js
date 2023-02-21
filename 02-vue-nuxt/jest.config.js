@@ -1,17 +1,18 @@
 module.exports = {
-	preset: './jest.preset.js',
-	testEnvironment: 'jsdom',
-	testEnvironmentOptions: {
-		customExportConditions: ['node', 'node-addons'],
-	},
-	moduleFileExtensions: ['js', 'vue'],
-	moduleNameMapper: {
-		'^@/(.*)': '<rootDir>/$1',
-	},
-	transform: {
-		'^.+\\.(js)$': 'babel-jest',
-		'.*\\.(vue)$': '@vue/vue3-jest',
-		'.+\\.(css|scss|png|jpg|svg)$': 'jest-transform-stub',
-	},
-	transformIgnorePatterns: ['node_modules/(?!(nuxt3|unenv))'],
-};
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/$1',
+    '^~/(.*)$': '<rootDir>/$1',
+    '^vue$': 'vue/dist/vue.common.js',
+  },
+  moduleFileExtensions: ['js', 'vue', 'json'],
+  transform: {
+    '^.+\\.js$': 'babel-jest',
+    '.*\\.(vue)$': 'vue-jest',
+  },
+  collectCoverage: true,
+  collectCoverageFrom: [
+    '<rootDir>/components/**/*.vue',
+    '<rootDir>/pages/**/*.vue',
+  ],
+  testEnvironment: 'jsdom',
+}
