@@ -11,13 +11,13 @@
     "lint:prettier": "prettier --check .",
     "lint": "yarn lint:js && yarn lint:prettier",
     "lintfix": "prettier --write --list-different . && yarn lint:js --fix",
-    "prepare": "cd .. && husky install",
+    "prepare": "cd .. && husky install 02-vue-nuxt/.husky",
     "test": "jest",
     "test:watch": "jest --watchAll"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "cd 02-vue-nuxt && lint-staged"
     }
   },
   "lint-staged": {
