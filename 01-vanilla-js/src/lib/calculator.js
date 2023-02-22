@@ -5,11 +5,11 @@
  * @param {number|string} num2 The second operator.
  * @returns {number} The operation result.
  */
-export function sum(num1, num2) {
-	const int1 = parseInt(num1);
-	const int2 = parseInt(num2);
+export default function sum(num1, num2) {
+	const int1 = parseInt(num1, 10);
+	const int2 = parseInt(num2, 10);
 
-	if (isNaN(int1) || isNaN(int2)) {
+	if (Number.isNaN(int1) || Number.isNaN(int2)) {
 		throw new Error('Invalid argument. Please, check your input.');
 	}
 

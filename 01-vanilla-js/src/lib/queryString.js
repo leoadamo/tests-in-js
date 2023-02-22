@@ -22,7 +22,7 @@ function keyValueToString([key, value]) {
  * @returns {boolean} Whether the given query string has a property format or not.
  */
 function isValidQueryString(qs) {
-	return qs.match(/^(\?[\w\d]+=[\w\d\.,]+)(&[\w\d]+=[\w\d\.,]+)*$/g);
+	return qs.match(/^(\?[\w\d]+=[\w\d.,]+)(&[\w\d]+=[\w\d.,]+)*$/g);
 }
 
 /**
@@ -51,13 +51,13 @@ export function queryStringToObject(qs) {
 			.replace(/^\?/, '')
 			.split('&')
 			.map((entry) => {
-				let [key, value] = entry.split('=');
+				const entries = entry.split('=');
 
-				if (value.includes(',')) {
-					value = value.split(',');
+				if (entries[1].includes(',')) {
+					entries[1] = entries[1].split(',');
 				}
 
-				return [key, value];
+				return [entries[0], entries[1]];
 			})
 	);
 }

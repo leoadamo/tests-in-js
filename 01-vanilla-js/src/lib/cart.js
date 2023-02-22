@@ -6,7 +6,7 @@ import remove from 'lodash/remove';
 import Dinero from '@config/dinero';
 
 // UTILS
-import { getDiscount } from '@utils/discount';
+import getDiscount from '@utils/discount';
 
 /**
  * Cart.js - Creates a Cart instance containing all it's
@@ -68,7 +68,7 @@ export default class Cart {
 	 * @returns {object} The order summary.
 	 */
 	getSummary() {
-		const items = this.items;
+		const { items } = this;
 		const total = this.getTotal();
 		const formattedTotal = Dinero({ amount: total }).toFormat('$0,0.00');
 

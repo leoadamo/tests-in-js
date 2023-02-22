@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+cd "01-vanilla-js"
+
+npx --no -- commitlint --edit ${1}

@@ -43,7 +43,7 @@ function getQuantityDiscount(amount, { conditions, quantity }) {
  * @param {array|object} conditions The special conditions.
  * @returns {Dinero.Dinero} A Dinero instance containing the discount amount.
  */
-export function getDiscount(amount, quantity, conditions) {
+export default function getDiscount(amount, quantity, conditions) {
 	const conditionsList = Array.isArray(conditions) ? conditions : [conditions];
 
 	const [higherDiscount] = conditionsList
@@ -53,14 +53,14 @@ export function getDiscount(amount, quantity, conditions) {
 					conditions: cond,
 					quantity,
 				}).getAmount();
-			} else if (cond.quantity) {
+			}
+			if (cond.quantity) {
 				return getQuantityDiscount(amount, {
 					conditions: cond,
 					quantity,
 				}).getAmount();
-			} else {
-				return 0;
 			}
+			return 0;
 		})
 		.sort((a, b) => b - a);
 
