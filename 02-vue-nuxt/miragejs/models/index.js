@@ -5,7 +5,7 @@
 import { Model, hasMany, belongsTo } from 'miragejs';
 
 /*
- * Everytime you create a new resource you have
+ * Every time you create a new resource you have
  * to create a new Model and add it here. It is
  * true for Factories and for Fixtures.
  *

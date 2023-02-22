@@ -102,7 +102,7 @@
 				</nav>
 			</div>
 		</header>
-		<the-cart />
+		<!-- <the-cart /> -->
 		<!-- <h2 v-if="hasError" data-testid="error-message">{{ errorMessage }}</h2> -->
 		<nuxt />
 		<footer class="bg-gray-200">
@@ -119,9 +119,9 @@
 </template>
 
 <script>
-import TheCart from '@/components/TheCart';
+// import TheCart from '@/components/TheCart';
 
 export default {
-	components: { TheCart },
+	// components: { TheCart },
 };
 </script>

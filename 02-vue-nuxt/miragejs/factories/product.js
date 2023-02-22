@@ -16,5 +16,8 @@ export default {
     price() {
       return faker.helpers.fake('{{commerce.price}}');
     },
+    image() {
+      return faker.image.food(640, 480, true);
+    },
   }),
 };
