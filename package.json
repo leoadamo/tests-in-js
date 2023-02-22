@@ -2,7 +2,6 @@
   "name": "tests-in-js",
   "version": "1.0.0",
   "description": "Monorepo for studying tests in Javascript",
-  "main": "index.js",
   "repository": "git@github.com:leoadamo/tests-in-js.git",
   "author": "Leonardo Adamoli <leonardo.adamoli@melhorenvio.com>",
   "license": "MIT",

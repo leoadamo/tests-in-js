@@ -1,7 +1,9 @@
 {
 	"name": "02-vue-nuxt",
 	"version": "1.0.0",
-	"private": true,
+	"repository": "git@github.com:leoadamo/tests-in-js/02-vue-nuxt.git",
+	"author": "Leonardo Adamoli <leonardo.adamoli@melhorenvio.com>",
+	"license": "MIT",
 	"scripts": {
 		"dev": "nuxt",
 		"build": "nuxt build",
