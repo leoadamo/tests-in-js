@@ -12,13 +12,8 @@
 		"lint": "yarn lint:js && yarn lint:prettier",
 		"lintfix": "prettier --write --list-different . && yarn lint:js --fix"
 	},
-	"config": {
-		"commitizen": {
-			"path": "./node_modules/cz-conventional-changelog"
-		}
-	},
 	"lint-staged": {
-		"*.js": "yarn lint",
+		"*.js": "yarn lintfix",
 		"*.{spec,test}.js": "yarn test --bail --findRelatedTests"
 	},
 	"keywords": [],
