@@ -18,10 +18,8 @@
 		}
 	},
 	"lint-staged": {
-		"*.js": [
-			"yarn lint",
-			"yarn test --bail --findRelatedTests"
-		]
+		"*.js": "yarn lint",
+		"*.{spec,test}.js": "yarn test --bail --findRelatedTests"
 	},
 	"keywords": [],
 	"author": "",
