@@ -7,14 +7,14 @@
 				data-testid="total-quantity-label"
 				class="mt-3 text-sm text-gray-500"
 			>
-				12 items found
+				{{ products.length }} items found
 			</span>
 			<div
 				class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6"
 			>
 				<product-card
-					v-for="(product, index) in 12"
-					:key="index"
+					v-for="product in products"
+					:key="product.id"
 					data-testid="product-card"
 				/>
 			</div>
@@ -24,10 +24,20 @@
 </template>
 
 <script>
+import products from '@/mocks/products.json';
 import ProductCard from '@/components/ProductCard';
 import SearchBar from '@/components/SearchBar';
 
 export default {
-	components: { ProductCard, SearchBar },
+	components: {
+		ProductCard,
+		SearchBar,
+	},
+
+	data() {
+		return {
+			products,
+		};
+	},
 };
 </script>

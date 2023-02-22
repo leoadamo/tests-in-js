@@ -71,6 +71,8 @@
 import CartItem from '@/components/CartItem';
 
 export default {
-	components: { CartItem },
+	components: {
+		CartItem,
+	},
 };
 </script>
