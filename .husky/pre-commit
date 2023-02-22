@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-cd "01-vanilla-js" && yarn lint-staged
-cd "02-vue-nuxt" && yarn lint-staged
+cd "./01-vanilla-js" && yarn lint-staged
+cd "../02-vue-nuxt" && yarn lint-staged
