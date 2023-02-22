@@ -1,18 +1,21 @@
-// DEPENDENCIES
 import { createServer } from 'miragejs';
+import factories from './factories';
+import routes from './routes';
+import models from './models';
+import seeds from './seeds';
 
-// MOCKS
-import products from '@/mocks/products.json';
+const config = (environment) => {
+  const config = {
+    environment,
+    factories,
+    models,
+    routes,
+    seeds,
+  };
+
+  return config;
+};
 
 export function makeServer({ environment = 'development' } = {}) {
-	return createServer({
-		environment,
-
-		routes() {
-			this.namespace = 'api';
-			this.get('products', () => ({
-				products,
-			}));
-		},
-	});
+  return createServer(config(environment));
 }
