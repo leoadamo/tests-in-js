@@ -1,5 +1,5 @@
 {
-  "name": "06-tests-in-js",
+  "name": "tests-in-js",
   "version": "1.0.0",
   "description": "Monorepo for studying tests in Javascript",
   "main": "index.js",
