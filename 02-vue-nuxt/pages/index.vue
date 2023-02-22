@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import products from '@/mocks/products.json';
 import ProductCard from '@/components/ProductCard';
 import SearchBar from '@/components/SearchBar';
 
@@ -36,8 +35,14 @@ export default {
 
 	data() {
 		return {
-			products,
+			products: [],
 		};
+	},
+
+	async created() {
+		const { data } = await this.$axios.get('/api/products');
+
+		this.products = data.products;
 	},
 };
 </script>
