@@ -51,7 +51,7 @@ export default {
 
 			this.products = data.products;
 		} catch (error) {
-			this.errorMessage = 'Sorry, we had an unexpected error :(';
+			this.errorMessage = 'Sorry, we had an unexpected error.';
 		}
 	},
 };

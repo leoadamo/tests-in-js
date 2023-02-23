@@ -12,5 +12,7 @@ module.exports = {
 	extends: ['@nuxtjs', 'plugin:nuxt/recommended', 'prettier'],
 	plugins: ['jest'],
 	// add your custom rules here
-	rules: {},
+	rules: {
+		'import/order': 0,
+	},
 };
