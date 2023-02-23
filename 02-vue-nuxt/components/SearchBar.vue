@@ -1,5 +1,9 @@
 <template>
-	<form data-testid="search-form" class="relative mt-6 max-w-lg mx-auto">
+	<form
+		data-testid="search-form"
+		class="relative mt-6 max-w-lg mx-auto"
+		@submit.prevent="doSearch"
+	>
 		<span class="absolute inset-y-0 left-0 pl-3 flex items-center">
 			<svg class="h-5 w-5 text-gray-500" viewBox="0 0 24 24" fill="none">
 				<path
@@ -12,6 +16,7 @@
 			</svg>
 		</span>
 		<input
+			v-model="searchTerm"
 			class="w-full border rounded-md pl-10 pr-4 py-2 focus:border-blue-500 focus:outline-none focus:shadow-outline"
 			type="search"
 			placeholder="Search"
@@ -22,5 +27,25 @@
 <script>
 export default {
 	name: 'SearchBar',
+
+	data() {
+		return {
+			searchTerm: null,
+		};
+	},
+
+	watch: {
+		searchTerm(newValue) {
+			if (!newValue) {
+				this.$emit('doSearch', { searchTerm: newValue });
+			}
+		},
+	},
+
+	methods: {
+		doSearch() {
+			this.$emit('doSearch', { searchTerm: this.searchTerm });
+		},
+	},
 };
 </script>
