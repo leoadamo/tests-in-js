@@ -44,7 +44,7 @@ export default {
 
 	methods: {
 		doSearch() {
-			this.$emit('doSearch', { searchTerm: this.searchTerm });
+			this.$emit('doSearch', { searchTerm: this.searchTerm.toLowerCase() });
 		},
 	},
 };

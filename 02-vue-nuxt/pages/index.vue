@@ -12,7 +12,7 @@
 				data-testid="total-quantity-label"
 				class="mt-3 text-sm text-gray-500"
 			>
-				{{ products.length }} items found
+				{{ productsList.length }} items found
 			</span>
 			<div
 				class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6"
@@ -50,9 +50,13 @@ export default {
 		productsList() {
 			const { searchTerm, products } = this;
 
-			return searchTerm
-				? products.filter((product) => product.title.includes(searchTerm))
-				: products;
+			if (searchTerm) {
+				return products.filter(({ title }) =>
+					title.toLowerCase().includes(searchTerm)
+				);
+			}
+
+			return products;
 		},
 	},
 

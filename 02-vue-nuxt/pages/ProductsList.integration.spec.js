@@ -49,8 +49,8 @@ describe('ProductsList - Integration', () => {
 		expect(axios.get).toHaveBeenCalledWith('/api/products');
 	});
 
-	it('Should mount the ProductCard component 10 times.', async () => {
-		const products = server.createList('product', 10);
+	it('Should mount the ProductCard component 25 times.', async () => {
+		const products = server.createList('product', 25);
 
 		axios.get.mockReturnValue(Promise.resolve({ data: { products } }));
 
@@ -64,7 +64,7 @@ describe('ProductsList - Integration', () => {
 
 		const productCards = wrapper.findAllComponents(ProductCard);
 
-		expect(productCards).toHaveLength(10);
+		expect(productCards).toHaveLength(25);
 	});
 
 	it('Should show an error message when the Promise rejects.', async () => {
@@ -81,10 +81,10 @@ describe('ProductsList - Integration', () => {
 		expect(wrapper.text()).toContain('Sorry, we had an unexpected error.');
 	});
 
-	it('Should filter the product list when a search is performed.', async () => {
+	it('Should filter the products list when a search is performed.', async () => {
 		// Arrange
 		const products = [
-			...server.createList('product', 10),
+			...server.createList('product', 23),
 			server.create('product', {
 				title: 'Hamburger de costela',
 			}),
@@ -106,7 +106,7 @@ describe('ProductsList - Integration', () => {
 		// Act
 		const searchBar = wrapper.findComponent(SearchBar);
 
-		searchBar.find('input[type="search"').setValue('costela');
+		searchBar.find('input[type="search"').setValue('COSTELA');
 		await searchBar.find('form').trigger('submit');
 
 		// Assert
@@ -114,5 +114,39 @@ describe('ProductsList - Integration', () => {
 
 		expect(wrapper.vm.searchTerm).toBe('costela');
 		expect(productCards).toHaveLength(2);
+	});
+
+	it('Should return the full products list when the search is cleared.', async () => {
+		// Arrange
+		const products = [
+			...server.createList('product', 24),
+			server.create('product', {
+				title: 'Hamburger de costela',
+			}),
+		];
+
+		axios.get.mockReturnValue(Promise.resolve({ data: { products } }));
+
+		await nextTick();
+
+		const wrapper = mount(ProductsList, {
+			mocks: {
+				$axios: axios,
+			},
+		});
+
+		// Act
+		const searchBar = wrapper.findComponent(SearchBar);
+
+		searchBar.find('input[type="search"').setValue('COSTELA');
+		await searchBar.find('form').trigger('submit');
+		searchBar.find('input[type="search"').setValue('');
+		await searchBar.find('form').trigger('submit');
+
+		// Assert
+		const productCards = wrapper.findAllComponents(ProductCard);
+
+		expect(wrapper.vm.searchTerm).toBe('');
+		expect(productCards).toHaveLength(25);
 	});
 });
