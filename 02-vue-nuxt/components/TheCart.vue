@@ -1,14 +1,16 @@
 <template>
 	<div
 		class="fixed right-0 top-0 max-w-xs w-full h-full px-6 py-4 transition duration-300 transform overflow-y-auto bg-white border-l-2 border-gray-300"
+		:class="{ hidden: !isOpen }"
 		data-testid="shopping-cart"
 	>
 		<div class="flex items-center justify-between">
 			<h3 class="text-2xl font-medium text-gray-700">Your cart</h3>
 			<button data-testid="clear-cart-button">clear cart</button>
 			<button
-				data-testid="close-button"
 				class="text-gray-600 focus:outline-none"
+				data-testid="close-button"
+				@click="handleClose"
 			>
 				<svg
 					class="h-5 w-5"
@@ -23,13 +25,18 @@
 				</svg>
 			</button>
 		</div>
+
 		<hr class="my-3" />
+
+		<h3 v-if="!hasAnyProduct">Cart is empty.</h3>
+
 		<cart-item
-			v-for="(product, index) in 3"
-			:key="index"
+			v-for="product in products"
+			:key="product.id"
+			:product="product"
 			data-testid="cart-item"
 		/>
-		<!-- <h3 v-if="!hasProducts">Cart is empty</h3> -->
+
 		<form data-testid="checkout-form">
 			<div class="mt-4">
 				<hr />
@@ -73,6 +80,32 @@ import CartItem from '@/components/CartItem';
 export default {
 	components: {
 		CartItem,
+	},
+
+	props: {
+		isOpen: {
+			type: Boolean,
+			default: false,
+		},
+
+		products: {
+			type: Array,
+			default: () => [],
+		},
+	},
+
+	computed: {
+		hasAnyProduct() {
+			const { products } = this;
+
+			return products.length > 0;
+		},
+	},
+
+	methods: {
+		handleClose() {
+			this.$emit('closeCart');
+		},
 	},
 };
 </script>

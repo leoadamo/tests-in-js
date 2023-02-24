@@ -34,6 +34,7 @@
 						<button
 							data-testid="toggle-button"
 							class="text-gray-600 focus:outline-none mx-4 sm:mx-0"
+							@click="toggleCart"
 						>
 							<svg
 								class="h-5 w-5"
@@ -102,7 +103,7 @@
 				</nav>
 			</div>
 		</header>
-		<!-- <the-cart /> -->
+		<the-cart :is-open="isOpen" @closeCart="toggleCart" />
 		<!-- <h2 v-if="hasError" data-testid="error-message">{{ errorMessage }}</h2> -->
 		<nuxt />
 		<footer class="bg-gray-200">
@@ -119,9 +120,21 @@
 </template>
 
 <script>
-// import TheCart from '@/components/TheCart';
+import TheCart from '@/components/TheCart';
 
 export default {
-	// components: { TheCart },
+	components: { TheCart },
+
+	data() {
+		return {
+			isOpen: false,
+		};
+	},
+
+	methods: {
+		toggleCart() {
+			this.isOpen = !this.isOpen;
+		},
+	},
 };
 </script>
