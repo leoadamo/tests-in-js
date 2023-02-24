@@ -21,7 +21,9 @@ describe('SearchBar - Unit', () => {
 
 		expect(wrapper.emitted().doSearch).toBeTruthy();
 		expect(wrapper.emitted().doSearch.length).toBe(1);
-		expect(wrapper.emitted().doSearch[0]).toEqual([{ searchTerm }]);
+		expect(wrapper.emitted().doSearch[0]).toEqual([
+			{ searchTerm: searchTerm.toLowerCase() },
+		]);
 	});
 
 	it('Should emit a "doSearch" event, containing an empty search term as payload when the input field is cleared.', async () => {
