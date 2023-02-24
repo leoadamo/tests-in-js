@@ -80,4 +80,39 @@ describe('ProductsList - Integration', () => {
 
 		expect(wrapper.text()).toContain('Sorry, we had an unexpected error.');
 	});
+
+	it('Should filter the product list when a search is performed.', async () => {
+		// Arrange
+		const products = [
+			...server.createList('product', 10),
+			server.create('product', {
+				title: 'Hamburger de costela',
+			}),
+			server.create('product', {
+				title: 'Fritas acompanhadas de um delicioso hamburger de costela',
+			}),
+		];
+
+		axios.get.mockReturnValue(Promise.resolve({ data: { products } }));
+
+		await nextTick();
+
+		const wrapper = mount(ProductsList, {
+			mocks: {
+				$axios: axios,
+			},
+		});
+
+		// Act
+		const searchBar = wrapper.findComponent(SearchBar);
+
+		searchBar.find('input[type="search"').setValue('costela');
+		await searchBar.find('form').trigger('submit');
+
+		// Assert
+		const productCards = wrapper.findAllComponents(ProductCard);
+
+		expect(wrapper.vm.searchTerm).toBe('costela');
+		expect(productCards).toHaveLength(2);
+	});
 });

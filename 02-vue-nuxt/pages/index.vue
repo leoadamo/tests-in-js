@@ -1,6 +1,6 @@
 <template>
 	<main class="my-8">
-		<search-bar />
+		<search-bar @doSearch="handleSearch" />
 
 		<h3 v-if="errorMessage" class="my-4 text-center text-2xl">
 			{{ errorMessage }}
@@ -18,7 +18,7 @@
 				class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6"
 			>
 				<product-card
-					v-for="product in products"
+					v-for="product in productsList"
 					:key="product.id"
 					:product="product"
 					data-testid="product-card"
@@ -42,7 +42,18 @@ export default {
 		return {
 			products: [],
 			errorMessage: null,
+			searchTerm: '',
 		};
+	},
+
+	computed: {
+		productsList() {
+			const { searchTerm, products } = this;
+
+			return searchTerm
+				? products.filter((product) => product.title.includes(searchTerm))
+				: products;
+		},
 	},
 
 	async created() {
@@ -53,6 +64,12 @@ export default {
 		} catch (error) {
 			this.errorMessage = 'Sorry, we had an unexpected error.';
 		}
+	},
+
+	methods: {
+		handleSearch({ searchTerm }) {
+			this.searchTerm = searchTerm;
+		},
 	},
 };
 </script>
