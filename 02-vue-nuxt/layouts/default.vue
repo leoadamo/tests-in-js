@@ -120,20 +120,21 @@
 </template>
 
 <script>
+import { Cart } from '@/observables/Cart';
 import TheCart from '@/components/TheCart';
 
 export default {
 	components: { TheCart },
 
-	data() {
-		return {
-			isOpen: false,
-		};
+	computed: {
+		isOpen() {
+			return Cart.isOpen;
+		},
 	},
 
 	methods: {
 		toggleCart() {
-			this.isOpen = !this.isOpen;
+			Cart.isOpen = !Cart.isOpen;
 		},
 	},
 };
