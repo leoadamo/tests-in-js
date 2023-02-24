@@ -9,6 +9,7 @@ import SearchBar from '@/components/SearchBar';
 import ProductCard from '@/components/ProductCard';
 import ProductsList from './index';
 
+// Mocking 'axios.get' function inside Jest
 jest.mock('axios', () => ({
 	get: jest.fn(),
 }));
@@ -22,37 +23,52 @@ describe('ProductsList - Integration', () => {
 
 	afterEach(() => {
 		server.shutdown();
+		jest.clearAllMocks();
 	});
 
-	it('Should mount the component.', () => {
-		const wrapper = mount(ProductsList);
+	/**
+	 * Creates a product list in the server and allows to pass
+	 * an overrides collection in order to customize the list.
+	 *
+	 * @param {number} [quantity] The amount of items to create.
+	 * @param {array} [overrides] The items to customize the list when necessary.
+	 *
+	 * @returns {array} An array containing the products created in the server.
+	 */
+	function getProducts(quantity = 25, overrides = []) {
+		const overridesList = overrides.map((override) =>
+			server.create('product', override)
+		);
 
-		expect(wrapper.vm).toBeTruthy();
-	});
+		const products = [
+			...server.createList('product', quantity),
+			...overridesList,
+		];
 
-	it('Should mount the SearchBar component.', () => {
-		const wrapper = mount(ProductsList);
+		return products;
+	}
 
-		const search = wrapper.findComponent(SearchBar);
+	/**
+	 * Mounts a product list to be used within tests.
+	 *
+	 * @param {number} [quantity] The amount of items to create.
+	 * @param {array} [overrides] The items to customize the list when necessary.
+	 * @param {boolean} [shouldReject] A boolean flag to define wether the promise should be resolved or rejected.
+	 *
+	 * @returns {object} An object containing the rendered wrapper and the list of products.
+	 */
+	async function mountProductsList(
+		quantity = 25,
+		overrides = [],
+		shouldReject = false
+	) {
+		const products = getProducts(quantity, overrides);
 
-		expect(search).toBeDefined();
-	});
-
-	it('Should call axios.get on component mount.', () => {
-		mount(ProductsList, {
-			mocks: {
-				$axios: axios,
-			},
-		});
-
-		expect(axios.get).toHaveBeenCalledTimes(1);
-		expect(axios.get).toHaveBeenCalledWith('/api/products');
-	});
-
-	it('Should mount the ProductCard component 25 times.', async () => {
-		const products = server.createList('product', 25);
-
-		axios.get.mockReturnValue(Promise.resolve({ data: { products } }));
+		if (shouldReject) {
+			axios.get.mockReturnValue(Promise.reject(new Error('Unexpected error.')));
+		} else {
+			axios.get.mockReturnValue(Promise.resolve({ data: { products } }));
+		}
 
 		const wrapper = mount(ProductsList, {
 			mocks: {
@@ -61,6 +77,36 @@ describe('ProductsList - Integration', () => {
 		});
 
 		await nextTick();
+
+		return {
+			wrapper,
+			products,
+		};
+	}
+
+	it('Should mount the component.', async () => {
+		const { wrapper } = await mountProductsList();
+
+		expect(wrapper.vm).toBeTruthy();
+	});
+
+	it('Should mount the SearchBar component.', async () => {
+		const { wrapper } = await mountProductsList();
+
+		const search = wrapper.findComponent(SearchBar);
+
+		expect(search).toBeDefined();
+	});
+
+	it('Should call axios.get on component mount.', async () => {
+		await mountProductsList();
+
+		expect(axios.get).toHaveBeenCalledTimes(1);
+		expect(axios.get).toHaveBeenCalledWith('/api/products');
+	});
+
+	it('Should mount the ProductCard component 25 times.', async () => {
+		const { wrapper } = await mountProductsList();
 
 		const productCards = wrapper.findAllComponents(ProductCard);
 
@@ -68,40 +114,23 @@ describe('ProductsList - Integration', () => {
 	});
 
 	it('Should show an error message when the Promise rejects.', async () => {
-		axios.get.mockReturnValue(Promise.reject(new Error('Unexpected error.')));
-
-		const wrapper = mount(ProductsList, {
-			mocks: {
-				$axios: axios,
-			},
-		});
-
-		await nextTick();
+		const { wrapper } = await mountProductsList(25, [], true);
 
 		expect(wrapper.text()).toContain('Sorry, we had an unexpected error.');
 	});
 
 	it('Should filter the products list when a search is performed.', async () => {
 		// Arrange
-		const products = [
-			...server.createList('product', 23),
-			server.create('product', {
+		const overrides = [
+			{
 				title: 'Hamburger de costela',
-			}),
-			server.create('product', {
+			},
+			{
 				title: 'Fritas acompanhadas de um delicioso hamburger de costela',
-			}),
+			},
 		];
 
-		axios.get.mockReturnValue(Promise.resolve({ data: { products } }));
-
-		await nextTick();
-
-		const wrapper = mount(ProductsList, {
-			mocks: {
-				$axios: axios,
-			},
-		});
+		const { wrapper } = await mountProductsList(23, overrides);
 
 		// Act
 		const searchBar = wrapper.findComponent(SearchBar);
@@ -118,22 +147,13 @@ describe('ProductsList - Integration', () => {
 
 	it('Should return the full products list when the search is cleared.', async () => {
 		// Arrange
-		const products = [
-			...server.createList('product', 24),
-			server.create('product', {
+		const overrides = [
+			{
 				title: 'Hamburger de costela',
-			}),
+			},
 		];
 
-		axios.get.mockReturnValue(Promise.resolve({ data: { products } }));
-
-		await nextTick();
-
-		const wrapper = mount(ProductsList, {
-			mocks: {
-				$axios: axios,
-			},
-		});
+		const { wrapper } = await mountProductsList(24, overrides);
 
 		// Act
 		const searchBar = wrapper.findComponent(SearchBar);
