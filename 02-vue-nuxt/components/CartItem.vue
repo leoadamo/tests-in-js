@@ -7,12 +7,13 @@
 				alt="Wrist watch classic"
 			/>
 			<div class="mx-3">
-				<h3 class="text-sm text-gray-600">Wrist watch classic</h3>
+				<h3 class="text-sm text-gray-600">{{ product.title }}</h3>
 				<button data-testid="remove-button">remover</button>
 				<div class="flex items-center mt-2">
 					<button
-						data-testid="-"
+						data-testid="decrease"
 						class="text-gray-500 focus:outline-none focus:text-gray-600"
+						@click="decrease"
 					>
 						<svg
 							class="h-5 w-5"
@@ -26,10 +27,13 @@
 							<path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
 						</svg>
 					</button>
-					<span data-testid="quantity" class="text-gray-700 mx-2"> 1 </span>
+					<span data-testid="quantity" class="text-gray-700 mx-2">
+						{{ quantity }}
+					</span>
 					<button
-						data-testid="+"
+						data-testid="increase"
 						class="text-gray-500 focus:outline-none focus:text-gray-600"
+						@click="increase"
 					>
 						<svg
 							class="h-5 w-5"
@@ -48,7 +52,7 @@
 				</div>
 			</div>
 		</div>
-		<span class="text-gray-600">$120.00</span>
+		<span class="text-gray-600">${{ product.price }}</span>
 	</div>
 </template>
 
@@ -60,6 +64,24 @@ export default {
 		product: {
 			type: Object,
 			required: true,
+		},
+	},
+
+	data() {
+		return {
+			quantity: 1,
+		};
+	},
+
+	methods: {
+		increase() {
+			this.quantity++;
+		},
+
+		decrease() {
+			if (this.quantity > 0) {
+				this.quantity--;
+			}
 		},
 	},
 };

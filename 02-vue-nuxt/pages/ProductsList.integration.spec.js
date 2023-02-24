@@ -18,7 +18,7 @@ describe('ProductsList - Integration', () => {
 	let server;
 
 	beforeEach(() => {
-		server = makeServer();
+		server = makeServer({ environment: 'test' });
 	});
 
 	afterEach(() => {
