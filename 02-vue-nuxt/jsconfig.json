@@ -1,15 +1,15 @@
 {
-	"compilerOptions": {
-		"baseUrl": ".",
-		"paths": {
-			"~/*": ["./*"],
-			"@/*": ["./*"],
-			"~~/*": ["./*"],
-			"@@/*": ["./*"]
-		}
-	},
-	"typeAcquisition": {
-		"include": ["jest"]
-	},
-	"exclude": ["node_modules", ".nuxt", "dist"]
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./*"],
+      "@/*": ["./*"],
+      "~~/*": ["./*"],
+      "@@/*": ["./*"]
+    }
+  },
+  "typeAcquisition": {
+    "include": ["jest"]
+  },
+  "exclude": ["node_modules", ".nuxt", "dist"]
 }
