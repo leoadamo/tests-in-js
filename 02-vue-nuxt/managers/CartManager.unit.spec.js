@@ -15,7 +15,17 @@ describe("CartManager - Unit", () => {
     server.shutdown();
   });
 
-  it.todo("Should return the state.");
+  it("Should return the state.", () => {
+    const product = server.create("product");
+
+    cartManager.addProducts([product]);
+    cartManager.open();
+
+    expect(cartManager.getState()).toEqual({
+      items: [product],
+      isOpen: true,
+    });
+  });
 
   it("Should set cart to open.", () => {
     const state = cartManager.open();

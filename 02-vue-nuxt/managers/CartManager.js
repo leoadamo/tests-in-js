@@ -17,6 +17,15 @@ export default class CartManager {
   }
 
   /**
+   * Gets the CartManager state.
+   *
+   * @returns {object} The updated state.
+   */
+  getState() {
+    return this.state;
+  }
+
+  /**
    * Opens the cart.
    *
    * @returns {object} The updated state.
@@ -24,7 +33,7 @@ export default class CartManager {
   open() {
     this.state.isOpen = true;
 
-    return this.state;
+    return this.getState();
   }
 
   /**
@@ -35,7 +44,7 @@ export default class CartManager {
   close() {
     this.state.isOpen = false;
 
-    return this.state;
+    return this.getState();
   }
 
   /**
@@ -70,7 +79,7 @@ export default class CartManager {
       }
     });
 
-    return this.state;
+    return this.getState();
   }
 
   /**
@@ -85,7 +94,7 @@ export default class CartManager {
       this.state.items = [...this.state.items.filter((item) => item.id !== id)];
     });
 
-    return this.state;
+    return this.getState();
   }
 
   /**
@@ -96,7 +105,7 @@ export default class CartManager {
   clearProducts() {
     this.state.items = [];
 
-    return this.state;
+    return this.getState();
   }
 
   /**
@@ -108,6 +117,6 @@ export default class CartManager {
     this.clearProducts();
     this.close();
 
-    return this.state;
+    return this.getState();
   }
 }
