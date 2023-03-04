@@ -32,8 +32,6 @@
 </template>
 
 <script>
-import { Cart } from "@/observables/Cart";
-
 export default {
   name: "ProductCard",
 
@@ -46,8 +44,8 @@ export default {
 
   methods: {
     addToCart() {
-      Cart.isOpen = true;
-      Cart.items.push(this.product);
+      this.$cart.open();
+      this.$cart.addProducts([this.product]);
     },
   },
 };

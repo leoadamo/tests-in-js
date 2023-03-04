@@ -130,7 +130,6 @@
 </template>
 
 <script>
-import { Cart } from "@/observables/Cart";
 import TheCart from "@/components/TheCart";
 
 export default {
@@ -138,17 +137,23 @@ export default {
 
   computed: {
     isOpen() {
-      return Cart.isOpen;
+      return this.$cart.getState().isOpen;
     },
 
     products() {
-      return Cart.items;
+      return this.$cart.getState().items;
     },
   },
 
   methods: {
     toggleCart() {
-      Cart.isOpen = !Cart.isOpen;
+      if (this.isOpen) {
+        this.$cart.close();
+
+        return;
+      }
+
+      this.$cart.open();
     },
   },
 };

@@ -7,14 +7,14 @@ import TheCart from "@/components/TheCart";
 import CartItem from "@/components/CartItem";
 
 describe("TheCart - Unit", () => {
-  let server;
+  let Server;
 
   beforeEach(() => {
-    server = makeServer({ environment: "test" });
+    Server = makeServer({ environment: "test" });
   });
 
   afterEach(() => {
-    server.shutdown();
+    Server.shutdown();
   });
 
   it("Should mount the component.", () => {
@@ -57,7 +57,7 @@ describe("TheCart - Unit", () => {
   });
 
   it("Should display 2 instances of CartItem component when 2 products are given to TheCart as prop.", () => {
-    const products = server.createList("product", 2);
+    const products = Server.createList("product", 2);
 
     const wrapper = mount(TheCart, {
       propsData: {

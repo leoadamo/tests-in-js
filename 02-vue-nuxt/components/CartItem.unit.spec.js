@@ -6,14 +6,14 @@ import { makeServer } from "@/miragejs/server";
 import CartItem from "@/components/CartItem";
 
 describe("CartItem - Unit", () => {
-  let server;
+  let Server;
 
   beforeEach(() => {
-    server = makeServer({ environment: "test" });
+    Server = makeServer({ environment: "test" });
   });
 
   afterEach(() => {
-    server.shutdown();
+    Server.shutdown();
   });
 
   // CONSTANTS
@@ -29,7 +29,7 @@ describe("CartItem - Unit", () => {
    * @returns {object} The wrapper element and the created product data.
    */
   function mountCartItem(productData = product) {
-    const product = server.create("product", productData);
+    const product = Server.create("product", productData);
 
     const wrapper = mount(CartItem, {
       propsData: {

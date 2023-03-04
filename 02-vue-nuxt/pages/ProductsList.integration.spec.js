@@ -15,14 +15,14 @@ jest.mock("axios", () => ({
 }));
 
 describe("ProductsList - Integration", () => {
-  let server;
+  let Server;
 
   beforeEach(() => {
-    server = makeServer({ environment: "test" });
+    Server = makeServer({ environment: "test" });
   });
 
   afterEach(() => {
-    server.shutdown();
+    Server.shutdown();
     jest.clearAllMocks();
   });
 
@@ -37,11 +37,11 @@ describe("ProductsList - Integration", () => {
    */
   function getProducts(quantity = 25, overrides = []) {
     const overridesList = overrides.map((override) =>
-      server.create("product", override)
+      Server.create("product", override)
     );
 
     const products = [
-      ...server.createList("product", quantity),
+      ...Server.createList("product", quantity),
       ...overridesList,
     ];
 
