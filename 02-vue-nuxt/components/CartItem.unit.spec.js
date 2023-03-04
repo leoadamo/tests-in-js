@@ -1,6 +1,7 @@
 // DEPENDENCIES
 import { mount } from "@vue/test-utils";
 import { makeServer } from "@/miragejs/server";
+import CartManager from "@/managers/CartManager";
 
 // COMPONENTS
 import CartItem from "@/components/CartItem";
@@ -29,15 +30,20 @@ describe("CartItem - Unit", () => {
    * @returns {object} The wrapper element and the created product data.
    */
   function mountCartItem(productData = product) {
+    const Cart = new CartManager();
+
     const product = Server.create("product", productData);
 
     const wrapper = mount(CartItem, {
       propsData: {
         product,
       },
+      mocks: {
+        $cart: Cart,
+      },
     });
 
-    return { wrapper, product };
+    return { wrapper, product, Cart };
   }
 
   it("Should mount the component.", async () => {
@@ -56,6 +62,27 @@ describe("CartItem - Unit", () => {
 
     expect(content).toContain(title);
     expect(content).toContain(price);
+  });
+
+  it("Should display the 'remove' button.", () => {
+    const { wrapper } = mountCartItem();
+
+    const removeButton = wrapper.find('[data-testid="remove-button"]');
+
+    expect(removeButton.exists()).toBe(true);
+  });
+
+  it("Should call the Cart removeProducts() function when button gets clicked.", async () => {
+    const { wrapper, product, Cart } = mountCartItem();
+
+    const removeButton = wrapper.find('[data-testid="remove-button"]');
+
+    const removeProducts = jest.spyOn(Cart, "removeProducts");
+
+    await removeButton.trigger("click");
+
+    expect(removeProducts).toHaveBeenCalledTimes(1);
+    expect(removeProducts).toHaveBeenCalledWith([product.id]);
   });
 
   it("Should display quantity 1 when product is first displayed.", () => {
