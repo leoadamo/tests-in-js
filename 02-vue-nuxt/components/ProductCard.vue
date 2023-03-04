@@ -46,8 +46,6 @@ export default {
 
   methods: {
     addToCart() {
-      this.$emit("addToCart", { product: this.product });
-
       Cart.isOpen = true;
       Cart.items.push(this.product);
     },

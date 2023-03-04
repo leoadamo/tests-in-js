@@ -2,6 +2,9 @@
 import { mount } from "@vue/test-utils";
 import { makeServer } from "@/miragejs/server";
 
+// UTILS
+import { Cart } from "@/observables/Cart";
+
 // COMPONENTS
 import ProductCard from "@/components/ProductCard";
 
@@ -57,13 +60,13 @@ describe("ProductCard - Unit", () => {
     expect(wrapper.element).toMatchSnapshot();
   });
 
-  it("Should emit the event addToCart with the product object when button gets clicked.", async () => {
-    const { wrapper, product } = mountProductCard(server);
+  it("Should add an item to the cart when the button gets clicked.", async () => {
+    const { wrapper } = mountProductCard(server);
 
     await wrapper.find("button").trigger("click");
 
-    expect(wrapper.emitted().addToCart).toBeTruthy();
-    expect(wrapper.emitted().addToCart.length).toBe(1);
-    expect(wrapper.emitted().addToCart[0]).toEqual([{ product }]);
+    expect(Cart.items).toHaveLength(1);
   });
+
+  it.todo("Should ensure that an item is not added to the cart twice.");
 });
