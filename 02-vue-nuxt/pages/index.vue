@@ -18,7 +18,7 @@
         data-testid="total-quantity-label"
         class="mt-3 text-sm text-gray-500"
       >
-        {{ productsList.length }} items found
+        {{ getQuantityLabel }}
       </span>
       <div
         class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6"
@@ -63,6 +63,14 @@ export default {
       }
 
       return products;
+    },
+
+    getQuantityLabel() {
+      const {
+        productsList: { length },
+      } = this;
+
+      return length === 1 ? `${length} item found` : `${length} items found`;
     },
   },
 

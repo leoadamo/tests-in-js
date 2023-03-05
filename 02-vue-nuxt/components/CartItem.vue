@@ -13,7 +13,7 @@
           class="underline"
           @click="$cart.removeProducts([product.id])"
         >
-          Remover
+          Remove
         </button>
         <div class="flex items-center mt-2">
           <button

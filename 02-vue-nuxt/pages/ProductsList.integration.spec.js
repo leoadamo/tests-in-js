@@ -169,4 +169,20 @@ describe("ProductsList - Integration", () => {
     expect(wrapper.vm.searchTerm).toBe("");
     expect(productCards).toHaveLength(25);
   });
+
+  it("Should display the total quantity of products.", async () => {
+    const { wrapper } = await mountProductsList(25);
+
+    const quantityLabel = wrapper.find('[data-testid="total-quantity-label"]');
+
+    expect(quantityLabel.text()).toEqual("25 items found");
+  });
+
+  it("Should display the quantity label in singular when there is only one product in the list.", async () => {
+    const { wrapper } = await mountProductsList(1);
+
+    const quantityLabel = wrapper.find('[data-testid="total-quantity-label"]');
+
+    expect(quantityLabel.text()).toEqual("1 item found");
+  });
 });
