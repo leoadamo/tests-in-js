@@ -1,4 +1,6 @@
 export default {
+  ssr: false,
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: "02-vue-nuxt",
