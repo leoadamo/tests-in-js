@@ -1,3 +1,6 @@
+// cypress/support/commands.js
+import "./commands";
+
 // cypress/support/index.js
 Cypress.on("window:before:load", (win) => {
   win.handleFromCypress = function (request) {
