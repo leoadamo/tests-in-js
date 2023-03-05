@@ -92,13 +92,10 @@ export default {
       type: Array,
       default: () => [],
     },
-  },
 
-  computed: {
-    hasAnyProduct() {
-      const { products } = this;
-
-      return products.length > 0;
+    hasAnyProduct: {
+      type: Boolean,
+      default: false,
     },
   },
 

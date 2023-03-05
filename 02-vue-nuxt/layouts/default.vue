@@ -109,6 +109,7 @@
     <the-cart
       :is-open="isOpen"
       :products="products"
+      :has-any-product="hasAnyProduct"
       @closeCart="toggleCart"
     />
     <!-- <h2 v-if="hasError" data-testid="error-message">{{ errorMessage }}</h2> -->
@@ -142,6 +143,10 @@ export default {
 
     products() {
       return this.$cart.getState().items;
+    },
+
+    hasAnyProduct() {
+      return this.$cart.hasAnyProduct();
     },
   },
 

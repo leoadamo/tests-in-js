@@ -17,30 +17,43 @@ describe("TheCart - Unit", () => {
     Server.shutdown();
   });
 
+  /**
+   * It mounts the Cart component.
+   *
+   * @param {object} props The component props.
+   *
+   * @returns {object} The wrapper component.
+   */
+  function mountTheCart(props = {}) {
+    const wrapper = mount(TheCart, {
+      propsData: {
+        ...props,
+      },
+    });
+
+    return { wrapper };
+  }
+
   it("Should mount the component.", () => {
-    const wrapper = mount(TheCart);
+    const { wrapper } = mountTheCart();
 
     expect(wrapper.vm).toBeDefined();
   });
 
   it('Should hide the cart when the prop "isOpen" is false or isn\'t given.', () => {
-    const wrapper = mount(TheCart);
+    const { wrapper } = mountTheCart();
 
     expect(wrapper.classes()).toContain("hidden");
   });
 
   it('Should display the cart when the prop "isOpen" is true.', () => {
-    const wrapper = mount(TheCart, {
-      propsData: {
-        isOpen: true,
-      },
-    });
+    const { wrapper } = mountTheCart({ isOpen: true });
 
     expect(wrapper.classes()).not.toContain("hidden");
   });
 
   it('Should emit a "closeCart" event when the close button gets clicked.', async () => {
-    const wrapper = mount(TheCart);
+    const { wrapper } = mountTheCart();
 
     const closeButton = wrapper.find('[data-testid="close-button"]');
     await closeButton.trigger("click");
@@ -51,7 +64,7 @@ describe("TheCart - Unit", () => {
   });
 
   it('Should display a "Cart is empty" message when there are no products.', () => {
-    const wrapper = mount(TheCart);
+    const { wrapper } = mountTheCart();
 
     expect(wrapper.text()).toContain("Cart is empty");
   });
@@ -59,11 +72,7 @@ describe("TheCart - Unit", () => {
   it("Should display 2 instances of CartItem component when 2 products are given to TheCart as prop.", () => {
     const products = Server.createList("product", 2);
 
-    const wrapper = mount(TheCart, {
-      propsData: {
-        products,
-      },
-    });
+    const { wrapper } = mountTheCart({ products, hasAnyProduct: true });
 
     expect(wrapper.findAllComponents(CartItem)).toHaveLength(2);
     expect(wrapper.text()).not.toContain("Cart is empty");
