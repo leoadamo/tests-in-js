@@ -3,3 +3,4 @@
 
 cd "./01-vanilla-js" && yarn lint-staged
 cd "../02-vue-nuxt" && yarn lint-staged
+cd "../04-node-express" && yarn lint-staged
