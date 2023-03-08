@@ -1,6 +1,5 @@
-import { appError } from '@/utils';
+import { appError, logger } from '@/utils';
 import { Order } from '@/database/models/order.model';
-import { logger } from '@/utils';
 
 export async function listOrders(userid) {
   try {

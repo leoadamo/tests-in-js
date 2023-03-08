@@ -1,11 +1,23 @@
 import * as validator from 'express-validator';
 import { appError } from '@/utils';
-import userStub from 'test/stubs/user.json';
-import orderStub from 'test/stubs/order.json';
-import ordersStub from 'test/stubs/orders.json';
 import * as service from '@/database/service';
+import userStub from '~/stubs/user.json';
+import orderStub from '~/stubs/order.json';
+import ordersStub from '~/stubs/orders.json';
 
 jest.mock('@/database/service');
+
+export function buildUser() {
+  return userStub;
+}
+
+export function buildOrder() {
+  return orderStub;
+}
+
+export function buildOrders() {
+  return ordersStub;
+}
 
 export function buildReq({ user = buildUser(), ...overrides } = {}) {
   return {
@@ -44,16 +56,4 @@ export function buildValidationErrors(condition) {
   });
 
   return { isEmpty };
-}
-
-export function buildUser() {
-  return userStub;
-}
-
-export function buildOrder() {
-  return orderStub;
-}
-
-export function buildOrders() {
-  return ordersStub;
 }
