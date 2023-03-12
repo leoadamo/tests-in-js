@@ -15,7 +15,7 @@
     "test:coverage": "jest --coverage"
   },
   "lint-staged": {
-    "**/*.{js,json}": "yarn pretty:check"
+    "**/*.{js,json}": "yarn pretty:fix"
   },
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.12.1",
