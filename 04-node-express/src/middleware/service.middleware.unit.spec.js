@@ -1,11 +1,14 @@
 // MIDDLEWARE
 import { get } from './service.middleware';
 
+// BUILDERS
+import { buildNext, buildReq } from '~/builders';
+
 describe('Middleware > Service - Unit', () => {
   it('Should add services to the request.', () => {
-    const req = {};
+    const req = buildReq({});
 
-    const next = jest.fn().mockName('next');
+    const next = buildNext();
 
     get(req, null, next);
 
