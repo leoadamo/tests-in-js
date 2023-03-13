@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 import { Model, DataTypes } from 'sequelize';
-import { sequelize, sync } from '.';
+import { sequelize, sync } from '@/database/models';
 
 export class User extends Model {}
 

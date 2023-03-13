@@ -15,7 +15,7 @@ jest.mock('@/utils/logger');
 
 // JSON.parse = jest.fn();
 
-describe('Service > Orders', () => {
+describe('Service > Orders - Unit', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -62,7 +62,7 @@ describe('Service > Orders', () => {
     const user = buildUser();
 
     const data = {
-      useris: user.id,
+      userid: user.id,
       products: buildOrder(),
     };
 
@@ -81,7 +81,7 @@ describe('Service > Orders', () => {
   it('Should reject with an error when saveOrder() is called without any data.', () => {
     const error = buildError(
       StatusCodes.INTERNAL_SERVER_ERROR,
-      'Failed to save order.',
+      'Failed to save order',
     );
 
     expect(saveOrder()).rejects.toEqual(error);
