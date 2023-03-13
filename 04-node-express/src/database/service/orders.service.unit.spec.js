@@ -1,13 +1,16 @@
+// DEPENDENCIES
+import { StatusCodes } from 'http-status-codes';
+
 // SERVICES
-import { listOrders, saveOrder } from './orders.service';
+import { listOrders, saveOrder } from '@/database/service/orders.service';
 
 // MODELS
 import { Order } from '@/database/models/order.model';
 
 // BUILDERS
 import { buildError, buildOrder, buildOrders, buildUser } from '~/builders';
-import { StatusCodes } from 'http-status-codes';
 
+// UTILS
 import { logger } from '@/utils/logger';
 
 jest.mock('@/database/models/order.model');
